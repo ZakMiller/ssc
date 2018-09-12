@@ -2,12 +2,13 @@ package main
 
 import (
 	"bytes"
-	 "github.com/ogier/pflag"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 
+	"github.com/ogier/pflag"
+	"github.com/pkg/browser"
 	"github.com/mmcdole/gofeed"
 )
 
@@ -39,7 +40,7 @@ func getTitles(count int) (string, error) {
 	} else {
 		buffer.WriteString(fmt.Sprintf("The %d most recent articles:\n", count))
 	}
-	
+
 	for i := 0; i < count; i++ {
 		buffer.WriteString(fmt.Sprintf("%v\n", feed.Items[i].Title))
 	}
@@ -53,7 +54,7 @@ func main() {
 	pflag.Parse()
 
 	if len(os.Args) < 2 {
-		fmt.Println("A command is required. Try 'titles'")
+		fmt.Println("A command is required. Try 'titles' or 'open'")
 		os.Exit(1)
 	}
 
@@ -65,8 +66,10 @@ func main() {
 		} else {
 			fmt.Println(result)
 		}
+	case "open":
+		browser.OpenURL("https://slatestarcodex.com")
 
 	default:
-		fmt.Println("Unrecognized command. Try 'titles'")
+		fmt.Println("Unrecognized command. Try 'titles' or 'open'")
 	}
 }
