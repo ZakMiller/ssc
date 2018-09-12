@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	"flag"
+	 "github.com/ogier/pflag"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -37,7 +37,7 @@ func getTitles(count int) (string, error) {
 	if count == 1 {
 		buffer.WriteString("The most recent article:\n")
 	} else {
-		buffer.WriteString(fmt.Sprintf("The most recent %d articles:\n", count))
+		buffer.WriteString(fmt.Sprintf("The %d most recent articles:\n", count))
 	}
 	
 	for i := 0; i < count; i++ {
@@ -48,16 +48,14 @@ func getTitles(count int) (string, error) {
 }
 
 func main() {
-	titles := flag.NewFlagSet("titles", flag.ExitOnError)
+	count := pflag.Int("count", 1, "The number of titles you want to retrieve. Default 1.")
 
-	count := titles.Int("count", 1, "The number of titles you want to retrieve. Default 1.")
+	pflag.Parse()
 
 	if len(os.Args) < 2 {
 		fmt.Println("A command is required. Try 'titles'")
 		os.Exit(1)
 	}
-
-	flag.Parse()
 
 	switch os.Args[1] {
 	case "titles":

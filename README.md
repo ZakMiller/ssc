@@ -2,5 +2,11 @@
 
 ## Try
 ```
-ssc titles 5
+ssc titles
+```
+
+or
+
+```
+ssc titles --count=5
 ```
